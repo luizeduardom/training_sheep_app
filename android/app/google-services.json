@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "636894608137",
+    "project_id": "traning-sheep-app",
+    "storage_bucket": "traning-sheep-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:636894608137:android:0a20cb0cc27ea3f44f31d8",
+        "android_client_info": {
+          "package_name": "com.luiz.training_sheet_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClexB7KQfWABp8MolEYhhw44LRyZU8Uzs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

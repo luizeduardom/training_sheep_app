@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'LoginScreen.dart';
+import 'LoginPage.dart';
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -25,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          const LoginScreen(),
+          LoginPage(),
 
           // Tela de Abertura com animação de fade
           AnimatedOpacity(
@@ -33,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
             duration: const Duration(seconds: 1),
             child: const Center(
               child: CircularProgressIndicator(
-                color: Colors.white,
+                color: Colors.blue,
               ),
             ),
           ),
