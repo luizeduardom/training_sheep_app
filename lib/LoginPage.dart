@@ -75,47 +75,53 @@ class _LoginPageState extends State<LoginPage> {
         title: Text('Login'),
         centerTitle: true,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            child:
-              Image.asset('assets/icon/logo_training_sheet.png', height: 295),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                TextField(
-                  controller: _emailController,
-                  decoration: InputDecoration(labelText: 'Email'),
-                ),
-                TextField(
-                  controller: _passwordController,
-                  decoration: InputDecoration(labelText: 'Senha'),
-                  obscureText: true,
-                ),
-                SizedBox(height: 30.0),
-                ElevatedButton(
-                  onPressed: _signIn,
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30), // Ajuste o valor vertical conforme necessário
-                  ),
-                  child: Text('Entrar', style: TextStyle(fontSize: 16),),
-                ),
-                SizedBox(height: 20.0),
-                TextButton(
-                  onPressed: () {
-                    // Funcao de registrar
-                  },
-                  child: Text('Registrar', style: TextStyle(fontSize: 16),),
-                ),
-              ],
+      body: SingleChildScrollView( // Adicionado um SingleChildScrollView para retirar o overflow de pixel. Permite rolar a pagina pra baixo também.
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              child: Image.asset('assets/icon/logo_training_sheet.png', height: 295),
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  TextField(
+                    controller: _emailController,
+                    decoration: InputDecoration(labelText: 'Email'),
+                  ),
+                  TextField(
+                    controller: _passwordController,
+                    decoration: InputDecoration(labelText: 'Senha'),
+                    obscureText: true,
+                  ),
+                  SizedBox(height: 30.0),
+                  ElevatedButton(
+                    onPressed: _signIn,
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                    ),
+                    child: Text('Entrar', style: TextStyle(fontSize: 16)),
+                  ),
+                  SizedBox(height: 20.0),
+                  TextButton(
+                    onPressed: () {
+                      // Função de registrar
+                    },
+                    child: Text('Registrar', style: TextStyle(fontSize: 16)),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
+
+
+
+
+
