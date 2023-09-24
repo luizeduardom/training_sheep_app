@@ -11,6 +11,7 @@ class _LoginPageState extends State<LoginPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _passwordVisible = false;
 
   Future<void> _signIn() async {
     String email = _emailController.text.trim();
@@ -93,8 +94,21 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   TextField(
                     controller: _passwordController,
-                    decoration: InputDecoration(labelText: 'Senha'),
-                    obscureText: true,
+                    decoration: InputDecoration(
+                      labelText: 'Senha',
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _passwordVisible ? Icons.visibility : Icons.visibility_off,
+                          color: Colors.grey,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _passwordVisible = !_passwordVisible;
+                          });
+                        },
+                      ),
+                    ),
+                    obscureText: !_passwordVisible, // Alterna entre texto normal e texto oculto
                   ),
                   SizedBox(height: 30.0),
                   ElevatedButton(
