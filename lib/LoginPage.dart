@@ -1,9 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'PaginaPrincipal.dart';
-import 'SplashScreen.dart';
 import 'containers/dialogGen.dart';
 
 class LoginPage extends StatefulWidget {
