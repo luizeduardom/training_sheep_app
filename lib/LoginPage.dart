@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'PaginaPrincipal.dart';
 import 'SplashScreen.dart';
 import 'containers/dialogGen.dart';
 
@@ -25,6 +26,13 @@ class _LoginPageState extends State<LoginPage> {
         email: email,
         password: password,
       );
+
+      if (userCredential.user != null) {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => PaginaPrincipal(),
+        ));
+      }
+
 
       mostrarDlgGenerica(context, "Logado com sucesso");
     } on FirebaseAuthException catch (e) {
@@ -66,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
                     controller: _emailController,
                     decoration: InputDecoration(labelText: 'Email'),
                   ),
-                  TextField(
+                  TextFormField(
                     controller: _passwordController,
                     decoration: InputDecoration(
                       labelText: 'Senha',
