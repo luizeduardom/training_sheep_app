@@ -12,10 +12,47 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  bool _isEmailFieldValid = false;
+  bool _isPasswordFieldValid = false;
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _passwordVisible = false;
+
+  void _validateEmailTextField(String text) {
+    if (text.isEmpty) {
+      setState(() {
+        _isEmailFieldValid = false; // O campo não é válido
+      });
+    } else {
+      setState(() {
+        _isEmailFieldValid = true; // O campo é válido
+      });
+    }
+  }
+
+  void _validatePasswordTextField(String text) {
+    if (text.isEmpty) {
+      setState(() {
+        _isPasswordFieldValid = false; // O campo não é válido
+      });
+    } else {
+      setState(() {
+        _isPasswordFieldValid = true; // O campo é válido
+      });
+    }
+  }
+
+  void _validar(){
+    if (_isPasswordFieldValid && _isEmailFieldValid){
+      _signIn();
+    } else {
+      mostrarDlgGenerica(context, "Preencha os campos necessários");
+    }
+  }
+
+
 
   Future<void> _signIn() async {
     String email = _emailController.text.trim();
@@ -33,8 +70,6 @@ class _LoginPageState extends State<LoginPage> {
         ));
       }
 
-
-      mostrarDlgGenerica(context, "Logado com sucesso");
     } on FirebaseAuthException catch (e) {
       if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
         mostrarDlgGenerica(context, "Senha ou usuário inválido.");
@@ -53,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Login'),
+        title: const Text('Login'),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -72,12 +107,16 @@ class _LoginPageState extends State<LoginPage> {
                 children: <Widget>[
                   TextField(
                     controller: _emailController,
-                    decoration: InputDecoration(labelText: 'Email'),
+                    onChanged: _validateEmailTextField,
+                    decoration: InputDecoration(labelText: 'Email',
+                      errorText: _isEmailFieldValid ? null : 'Preencha o campo',),
                   ),
-                  TextFormField(
+                  TextField(
                     controller: _passwordController,
+                    onChanged: _validatePasswordTextField,
                     decoration: InputDecoration(
                       labelText: 'Senha',
+                      errorText: _isPasswordFieldValid ? null : 'Preencha o campo',
                       suffixIcon: IconButton(
                         icon: Icon(
                           _passwordVisible
@@ -95,21 +134,21 @@ class _LoginPageState extends State<LoginPage> {
                     obscureText:
                         !_passwordVisible, // Alterna entre texto normal e texto oculto
                   ),
-                  SizedBox(height: 30.0),
+                  const SizedBox(height: 30.0),
                   ElevatedButton(
-                    onPressed: _signIn,
+                    onPressed: _validar,
                     style: ElevatedButton.styleFrom(
                       padding:
-                          EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                          const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                     ),
-                    child: Text('Entrar', style: TextStyle(fontSize: 16)),
+                    child: const Text('Entrar', style: TextStyle(fontSize: 16)),
                   ),
-                  SizedBox(height: 20.0),
+                  const SizedBox(height: 20.0),
                   TextButton(
                     onPressed: () {
                       // Função de registrar
                     },
-                    child: Text('Registrar', style: TextStyle(fontSize: 16)),
+                    child: const Text('Registrar', style: TextStyle(fontSize: 16)),
                   ),
                 ],
               ),
