@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:training_sheet_app/pages/RegisterPage.dart';
 
+import '../services/auth_service.dart';
 import 'PaginaPrincipal.dart';
 import '../components/dialogGen.dart';
 
@@ -16,7 +17,7 @@ class _LoginPageState extends State<LoginPage> {
   bool _isPasswordFieldValid = true;
   bool _passwordVisible = false;
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  AuthService _auth = AuthService();
   final user = FirebaseAuth.instance.currentUser;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -47,7 +48,11 @@ class _LoginPageState extends State<LoginPage> {
 
   void _login() {
     if (_isPasswordFieldValid && _isEmailFieldValid){
-      _signIn();
+      _auth.login(
+        email: _emailController.text,
+        senha: _passwordController.text,
+        context: context
+      );
     } else {
       mostrarDlgGenerica(context, "Preencha os campos necessários");
     }
@@ -59,39 +64,6 @@ class _LoginPageState extends State<LoginPage> {
       builder: (context) => RegisterPage(),
     ));
   }
-
-
-
-  Future<void> _signIn() async {
-    String email = _emailController.text.trim();
-    String password = _passwordController.text.trim();
-    try {
-      final UserCredential userCredential =
-          await _auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-
-      if (userCredential.user != null) {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => PaginaPrincipal(),
-        ));
-      }
-
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
-        mostrarDlgGenerica(context, "Senha ou usuário inválido.");
-      } else if (e.code == 'channel-error') {
-        mostrarDlgGenerica(context, "Erro de conexão com o canal");
-      } else {
-        mostrarDlgGenerica(context, "Autenticação Falhou");
-        print(e);
-      }
-    }
-  }
-
-
-
 
 
   @override

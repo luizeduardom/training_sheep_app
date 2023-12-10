@@ -5,7 +5,7 @@ void mostrarDlgGenerica(BuildContext context, String message) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: const Text('Training Sheep App'),
+        title: const Text('Training Sheet'),
         content: Text(message),
         actions: <Widget>[
           TextButton(
