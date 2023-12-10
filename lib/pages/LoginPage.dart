@@ -1,9 +1,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:training_sheet_app/pages/RegisterPage.dart';
 
 import 'PaginaPrincipal.dart';
-import 'containers/dialogGen.dart';
+import '../components/dialogGen.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -11,13 +12,14 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  bool _isEmailFieldValid = false;
-  bool _isPasswordFieldValid = false;
+  bool _isEmailFieldValid = true;
+  bool _isPasswordFieldValid = true;
+  bool _passwordVisible = false;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final user = FirebaseAuth.instance.currentUser;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  bool _passwordVisible = false;
 
   void _validateEmailTextField(String text) {
     if (text.isEmpty) {
@@ -43,12 +45,19 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  void _validar(){
+  void _login() {
     if (_isPasswordFieldValid && _isEmailFieldValid){
       _signIn();
     } else {
       mostrarDlgGenerica(context, "Preencha os campos necessários");
     }
+  }
+
+
+  void _register() {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+      builder: (context) => RegisterPage(),
+    ));
   }
 
 
@@ -81,6 +90,10 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 295),
             ),
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(30.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -135,19 +148,22 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   const SizedBox(height: 30.0),
                   ElevatedButton(
-                    onPressed: _validar,
+                    onPressed: _login,
                     style: ElevatedButton.styleFrom(
                       padding:
                           const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                     ),
                     child: const Text('Entrar', style: TextStyle(fontSize: 16)),
                   ),
-                  const SizedBox(height: 20.0),
-                  TextButton(
-                    onPressed: () {
-                      // Função de registrar
-                    },
-                    child: const Text('Registrar', style: TextStyle(fontSize: 16)),
+                  const SizedBox(height: 60.0),
+                  ElevatedButton(
+                    onPressed: _register,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      padding:
+                      const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                    ),
+                    child: const Text('Criar uma conta', style: TextStyle(fontSize: 16)),
                   ),
                 ],
               ),

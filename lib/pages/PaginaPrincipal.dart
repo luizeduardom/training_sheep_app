@@ -1,11 +1,15 @@
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:training_sheet_app/LoginPage.dart';
+import 'package:training_sheet_app/pages/LoginPage.dart';
 
 class PaginaPrincipal extends StatelessWidget {
 
-  void signOut(BuildContext context) async {
+  final user = FirebaseAuth.instance.currentUser;
+
+  void signOutUser(BuildContext context) async {
     try {
+      FirebaseAuth.instance.signOut();
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -38,9 +42,9 @@ class PaginaPrincipal extends StatelessWidget {
         title: const Text('Página Principal'),
         actions: [
           IconButton(
-            icon: const Icon(Icons.exit_to_app),
+            icon: const Icon(Icons.logout),
             onPressed: () {
-              signOut(context);
+              signOutUser(context);
             },
           ),
         ],
@@ -65,6 +69,9 @@ class PaginaPrincipal extends StatelessWidget {
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
+              ),
+              Text(
+                "User " + user!.email!
               ),
               const SizedBox(height: 40),
               ElevatedButton(

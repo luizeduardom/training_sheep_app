@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'SplashScreen.dart';
-import 'firebase_options.dart';
+import 'components/SplashScreen.dart';
+import 'services/firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,8 +16,16 @@ class TrainingSheep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ColorScheme colorScheme = ColorScheme.fromSeed(
+      brightness: Brightness.dark,
+      seedColor: Colors.lightBlue
+    );
+
     return MaterialApp(
       home: SplashScreen(),
+      theme: ThemeData(
+        colorScheme: colorScheme,
+      ),
       debugShowCheckedModeBanner: false,
     );
   }
