@@ -75,12 +75,9 @@ class _TreinosPageState extends State<TreinosPage> {
     }
     );
   }
-
   Future<void> _create([DocumentSnapshot? documentSnapshot]) async {
-    if(documentSnapshot != null){
-      _nameController.text = documentSnapshot['nome'];
-      _emailController.text = documentSnapshot['email'];
-    }
+      _nameController.text = '';
+      _emailController.text = '';
 
     await showModalBottomSheet(
         isScrollControlled: true,
@@ -130,7 +127,6 @@ class _TreinosPageState extends State<TreinosPage> {
         }
     );
   }
-
   Future<void> _delete(String userId) async {
     await _usuarios.doc(userId).delete();
 
@@ -139,11 +135,11 @@ class _TreinosPageState extends State<TreinosPage> {
     ));
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Ficha de treino'),
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
@@ -154,9 +150,11 @@ class _TreinosPageState extends State<TreinosPage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.lightBlue,
         onPressed: () => _create(),
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.add, color: Colors.black),
       ),
+      floatingActionButtonLocation:  FloatingActionButtonLocation.centerFloat,
       body: _body()
     );
   }

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:training_sheet_app/components/dialogGen.dart';
 import 'package:training_sheet_app/pages/LoginPage.dart';
-
-import '../pages/HomePage.dart';
+import 'package:training_sheet_app/pages/ControllerPage.dart';
 
 class AuthService {
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -23,7 +22,7 @@ class AuthService {
 
       if (userC.user != null) {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => PaginaPrincipal(),
+          builder: (context) => LoginPage(),
         ));
       }
     } on FirebaseAuthException catch (e) {
@@ -54,7 +53,7 @@ class AuthService {
 
       if (userCredential.user != null) {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => PaginaPrincipal(),
+          builder: (context) => ControllerPage(),
         ));
       }
 
