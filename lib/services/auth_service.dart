@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:training_sheet_app/components/dialogGen.dart';
+import 'package:training_sheet_app/pages/LoginPage.dart';
 
-import '../pages/PaginaPrincipal.dart';
+import '../pages/HomePage.dart';
 
 class AuthService {
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -46,7 +47,7 @@ class AuthService {
     required BuildContext context
     }) async {
     try {
-      final UserCredential userCredential = await _firebaseAuth.signInWithEmailAndPassword(
+      UserCredential userCredential = await _firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: senha,
       );
@@ -69,5 +70,33 @@ class AuthService {
     }
   }
 
+
+  void signOutUser(BuildContext context) async {
+    try {
+      FirebaseAuth.instance.signOut();
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Logout', textAlign: TextAlign.center),
+            content: const Text('Você foi deslogado da sua conta.'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop(); // Fecha o diálogo.
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => LoginPage(),
+                  ));
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } catch (e) {
+      print('Erro ao fazer logout: $e');
+    }
+  }
 
 }

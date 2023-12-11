@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:training_sheet_app/pages/RegisterPage.dart';
 
 import '../services/auth_service.dart';
-import 'PaginaPrincipal.dart';
 import '../components/dialogGen.dart';
 
 class LoginPage extends StatefulWidget {
@@ -94,9 +93,13 @@ class _LoginPageState extends State<LoginPage> {
                     onChanged: _validateEmailTextField,
                     decoration: InputDecoration(labelText: 'Email',
                       errorText: _isEmailFieldValid ? null : 'Preencha o campo',),
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
                   ),
                   TextField(
                     controller: _passwordController,
+                    style: TextStyle(color: Colors.black),
                     onChanged: _validatePasswordTextField,
                     decoration: InputDecoration(
                       labelText: 'Senha',

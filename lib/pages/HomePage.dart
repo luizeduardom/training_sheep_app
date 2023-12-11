@@ -1,39 +1,16 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:training_sheet_app/pages/LoginPage.dart';
+import 'package:training_sheet_app/pages/TreinosPage.dart';
+import 'package:training_sheet_app/repository/treino_repository.dart';
+
+import '../services/auth_service.dart';
 
 class PaginaPrincipal extends StatelessWidget {
-
   final user = FirebaseAuth.instance.currentUser;
-
-  void signOutUser(BuildContext context) async {
-    try {
-      FirebaseAuth.instance.signOut();
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Logout', textAlign: TextAlign.center),
-            content: const Text('Você foi deslogado da sua conta.'),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('OK'),
-                onPressed: () {
-                  Navigator.of(context).pop(); // Fecha o diálogo.
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => LoginPage(),
-                  ));
-                },
-              ),
-            ],
-          );
-        },
-      );
-    } catch (e) {
-      print('Erro ao fazer logout: $e');
-    }
-  }
+  PerfilRepository repository = PerfilRepository();
+  AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +21,7 @@ class PaginaPrincipal extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () {
-              signOutUser(context);
+              _auth.signOutUser(context);
             },
           ),
         ],
@@ -70,13 +47,14 @@ class PaginaPrincipal extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Text(
-                "User " + user!.email!
-              ),
+              Text(user!.email!),
+              Text(user!.displayName.toString()),
               const SizedBox(height: 40),
               ElevatedButton(
                 onPressed: () {
-                  // Implemente a funcionalidade para acessar os treinos
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => TreinosPage(),
+                  ));
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).primaryColor,
@@ -91,23 +69,6 @@ class PaginaPrincipal extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  // Implemente a funcionalidade para agendar aulas
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).primaryColor,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                ),
-                child: const Text(
-                  'Agendar Aulas',
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-
             ],
           ),
         ),
