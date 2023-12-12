@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:training_sheet_app/components/dialogGen.dart';
 import 'package:training_sheet_app/pages/LoginPage.dart';
 import 'package:training_sheet_app/repository/treino_repository.dart';
 
@@ -15,14 +16,15 @@ class _TreinosPageState extends State<TreinosPage> {
   AuthService _auth = AuthService();
   final user = FirebaseAuth.instance.currentUser;
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final CollectionReference _usuarios = FirebaseFirestore.instance.collection('usuarios');
+  final TextEditingController _tipoController = TextEditingController();
+  late CollectionReference _treinos;
+  late Stream<QuerySnapshot> _treinosQuery;
 
 
-  Future<void> _update([DocumentSnapshot? documentSnapshot]) async {
-    if(documentSnapshot != null){
-      _nameController.text = documentSnapshot['nome'];
-      _emailController.text = documentSnapshot['email'];
+  Future<void> _update(String nome, String tipo, String uid) async {
+    if(uid != ""){
+      _nameController.text = nome;
+      _tipoController.text = tipo;
     }
 
     await showModalBottomSheet(
@@ -47,8 +49,8 @@ class _TreinosPageState extends State<TreinosPage> {
               decoration: const InputDecoration(labelText: 'Nome'),
             ),
             TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(labelText: 'E-mail'),
+              controller: _tipoController,
+              decoration: const InputDecoration(labelText: 'Tipo'),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
@@ -60,13 +62,13 @@ class _TreinosPageState extends State<TreinosPage> {
                 ),
                 onPressed: () async {
                   final String nome = _nameController.text;
-                  final String email = _emailController.text;
+                  final String tipo = _tipoController.text;
 
-                  await _usuarios
-                      .doc(documentSnapshot!.id)
-                      .update({"nome": nome, "email": email});
+                  await _treinos
+                      .doc(uid)
+                      .update({"nome": nome, "tipo": tipo});
                   _nameController.text = "";
-                  _emailController.text = "";
+                  _tipoController.text = "";
                 }
             )
           ],
@@ -75,9 +77,9 @@ class _TreinosPageState extends State<TreinosPage> {
     }
     );
   }
-  Future<void> _create([DocumentSnapshot? documentSnapshot]) async {
+  Future<void> _create() async {
       _nameController.text = '';
-      _emailController.text = '';
+      _tipoController.text = '';
 
     await showModalBottomSheet(
         isScrollControlled: true,
@@ -101,8 +103,8 @@ class _TreinosPageState extends State<TreinosPage> {
                   decoration: const InputDecoration(labelText: 'Nome'),
                 ),
                 TextField(
-                  controller: _emailController,
-                  decoration: const InputDecoration(labelText: 'E-mail'),
+                  controller: _tipoController,
+                  decoration: const InputDecoration(labelText: 'Tipo'),
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
@@ -114,11 +116,11 @@ class _TreinosPageState extends State<TreinosPage> {
                     ),
                     onPressed: () async {
                       final String nome = _nameController.text;
-                      final String email = _emailController.text;
+                      final String tipo = _tipoController.text;
 
-                      await _usuarios.add({"nome": nome, "email": email});
+                      await _treinos.add({"nome": nome, "tipo": tipo, "usuario": user!.uid});
                       _nameController.text = "";
-                      _emailController.text = "";
+                      _tipoController.text = "";
                     }
                 )
               ],
@@ -128,7 +130,7 @@ class _TreinosPageState extends State<TreinosPage> {
     );
   }
   Future<void> _delete(String userId) async {
-    await _usuarios.doc(userId).delete();
+    await _treinos.doc(userId).delete();
 
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Usuário deletado com sucesso!")
@@ -137,18 +139,19 @@ class _TreinosPageState extends State<TreinosPage> {
 
 
   @override
+  void initState(){
+    super.initState();
+    _treinos = FirebaseFirestore.instance.collection('treinos');
+    _treinosQuery = FirebaseFirestore.instance
+        .collection('treinos')
+        .where('usuario', isEqualTo: user!.uid)
+        .snapshots();
+  }
+
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () {
-              _auth.signOutUser(context);
-            },
-          ),
-        ],
-      ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.lightBlue,
         onPressed: () => _create(),
@@ -162,29 +165,32 @@ class _TreinosPageState extends State<TreinosPage> {
 
   _body(){
     return StreamBuilder(
-        stream: _usuarios.snapshots(),
-        builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot){
-          if(streamSnapshot.hasData){
+        stream: _treinosQuery,
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
+          if(snapshot.hasData){
+            List<QueryDocumentSnapshot> treinos = snapshot.data!.docs;
             return ListView.builder(
-              itemCount: streamSnapshot.data!.docs.length,
+              itemCount: treinos.length,
               itemBuilder: (context, index){
-                final DocumentSnapshot documentSnapshot =
-                    streamSnapshot.data!.docs[index];
+                String idTreino = treinos[index].id;
+                String nomeTreino = treinos[index]['nome'];
+                String tipo = treinos[index]['tipo'];
                 return Card (
                   margin: const EdgeInsets.all(10),
                   child: ListTile(
-                    title: Text(documentSnapshot['nome']),
-                    subtitle: Text(documentSnapshot['email']),
+                    title: Text('$nomeTreino'),
+                    subtitle: Text('$tipo'),
                     trailing: SizedBox(
                       width: 100,
                       child: Row(
                         children: [
                           IconButton(onPressed: () =>
-                            _update(documentSnapshot),
+                            _update(
+                              nomeTreino, tipo, idTreino),
                             icon: const Icon(Icons.edit)
                           ),
                           IconButton(onPressed: () =>
-                            _delete(documentSnapshot.id),
+                            _delete(idTreino),
                             icon: const Icon(Icons.delete)
                           )
                         ],

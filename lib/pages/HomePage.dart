@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:training_sheet_app/pages/FavTreinosPage.dart';
 import 'package:training_sheet_app/pages/TreinosPage.dart';
 import 'package:training_sheet_app/repository/treino_repository.dart';
 
+import '../model/userLogged.dart';
 import '../services/auth_service.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,12 +21,13 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    String uid = Provider.of<UserLogged>(context).uid;
     return Scaffold(
-      body: _body()
+      body: _body(uid)
     );
   }
 
-  _body(){
+  _body(String uid){
     return SingleChildScrollView(
       child: Container(
         alignment: Alignment.center,
@@ -46,28 +49,10 @@ class _HomePageState extends State<HomePage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
+            Text(uid),
             Text(user!.email!),
             Text(user!.displayName.toString()),
             const SizedBox(height: 40),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => TreinosPage(),
-                ));
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).primaryColor,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-              ),
-              child: const Text(
-                'Acessar Treinos',
-                style: TextStyle(
-                  fontSize: 18,
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
           ],
         ),
       ),

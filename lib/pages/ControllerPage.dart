@@ -39,6 +39,16 @@ class _ControllerPageState extends State<ControllerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () {
+                _auth.signOutUser(context);
+              },
+            ),
+          ],
+        ),
         body: _body(),
         bottomNavigationBar: Container(
         color: Colors.blueGrey.shade900,
@@ -48,7 +58,7 @@ class _ControllerPageState extends State<ControllerPage> {
           backgroundColor: Colors.blueGrey.shade900,
           activeColor: Colors.lightBlue,
           tabBackgroundColor: Colors.blueGrey.shade800,
-          tabBorderRadius: 12,
+          tabBorderRadius: 50,
           gap: 8,
           tabs: const [
             GButton(icon: Icons.home, text: 'Home', padding: EdgeInsets.all(15)),

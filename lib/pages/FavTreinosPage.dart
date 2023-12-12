@@ -17,16 +17,6 @@ class _FavTreinosPageState extends State<FavTreinosPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () {
-              _auth.signOutUser(context);
-            },
-          ),
-        ],
-      ),
       body: _body(),
     );
   }
