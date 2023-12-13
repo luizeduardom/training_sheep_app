@@ -134,11 +134,11 @@ class _LoginPageState extends State<LoginPage> {
                   ElevatedButton(
                     onPressed: _register,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
+                      backgroundColor: Colors.lightBlue.shade200,
                       padding:
                       const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                     ),
-                    child: const Text('Criar uma conta', style: TextStyle(fontSize: 16)),
+                    child: const Text('Criar uma conta', style: TextStyle(fontSize: 16, color: Colors.white)),
                   ),
                 ],
               ),

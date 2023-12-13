@@ -213,16 +213,16 @@ class _TreinosPageState extends State<TreinosPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: Container(
-        margin: EdgeInsets.only(bottom: 40.0),
+        margin: EdgeInsets.only(bottom: 45.0),
         child: FloatingActionButton(
-        backgroundColor: Colors.lightBlue,
+        backgroundColor: Colors.lightBlue.shade200,
         onPressed: () => _create(),
         child: const Icon(Icons.add, color: Colors.black),
       ),
       ),
       floatingActionButtonLocation:  FloatingActionButtonLocation.centerFloat,
       body: Container(
-        margin: EdgeInsets.only(left: 15, top: 40, right: 15, bottom: 178),
+        margin: EdgeInsets.only(left: 15, top: 40, right: 15, bottom: 180),
         child: _body()
         ),
       );
@@ -251,7 +251,7 @@ class _TreinosPageState extends State<TreinosPage> {
                   color: cardColor,
                   margin: const EdgeInsets.all(10),
                   child: ListTile(
-                    title: Text('$nomeTreino'),
+                    title: Text('$nomeTreino', style: TextStyle(fontWeight: FontWeight.bold)),
                     subtitle: Text('$tipo'),
                     trailing: SizedBox(
                       width: 144,

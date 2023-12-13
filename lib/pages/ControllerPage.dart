@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:training_sheet_app/pages/FichaPage.dart';
-import 'package:training_sheet_app/pages/TempPage.dart';
+import 'package:training_sheet_app/pages/Fichas/FichaIniciantePage.dart';
 import 'package:training_sheet_app/pages/TreinosPage.dart';
 import 'package:training_sheet_app/pages/HomePage.dart';
 import 'package:training_sheet_app/repository/treino_repository.dart';
@@ -66,15 +66,14 @@ class _ControllerPageState extends State<ControllerPage> {
           padding: const EdgeInsets.all(10),
           child: GNav(
           backgroundColor: Colors.transparent,
-          activeColor: Colors.lightBlue,
+          activeColor: Colors.lightBlue.shade200,
           tabBackgroundColor: Colors.black26,
           tabBorderRadius: 50,
           gap: 8,
           tabs: const [
             GButton(icon: Icons.home, text: 'Home', padding: EdgeInsets.all(15)),
             GButton(icon: Icons.accessibility_new, text: 'Meus Treinos', padding: EdgeInsets.all(15)),
-            GButton(icon: Icons.receipt_long, text: 'Ficha', padding: EdgeInsets.all(15)),
-            GButton(icon: Icons.access_time, text: 'Temporizador', padding: EdgeInsets.all(15))
+            GButton(icon: Icons.article, text: 'Ficha', padding: EdgeInsets.all(15)),
           ],
           onTabChange: (pagina){
             _pageController.animateToPage(pagina, duration: Duration(milliseconds: 400), curve: Curves.easeOutExpo);
@@ -91,8 +90,7 @@ class _ControllerPageState extends State<ControllerPage> {
       children: [
         HomePage(),
         TreinosPage(),
-        FichaPage(),
-        TempPage()
+        FichaPage()
       ],
       onPageChanged: setPaginaAtual,
     );

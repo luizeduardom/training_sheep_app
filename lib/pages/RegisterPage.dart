@@ -117,7 +117,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ElevatedButton(
                       onPressed: handleButtonRegister,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.lightBlue,
+                        backgroundColor: Colors.lightBlue.shade200,
                         padding:
                         const EdgeInsets.symmetric(vertical: 15, horizontal: 120),
                       ),

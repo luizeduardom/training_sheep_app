@@ -56,11 +56,14 @@ class _HomePageState extends State<HomePage> {
     return SingleChildScrollView(
       child: Container(
       alignment: Alignment.center,
-      margin: EdgeInsets.only(top: 200),
+      margin: EdgeInsets.only(top: 70),
       child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
+
       children: [
+        Text('Bem vindo, ${user!.displayName!}!', style: TextStyle(fontWeight: FontWeight.bold),),
+        SizedBox(height: 120),
         Center(
           child: Icon(
             Icons.auto_awesome_outlined,
@@ -73,11 +76,12 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.all(20.0),
           child: Text(
             motivationalQuote,
-            style: TextStyle(fontSize: 16,color: Colors.lightBlue.shade200,fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 16,color: Colors.lightBlue.shade200),
             textAlign: TextAlign.center,
           ),
         ),
       ],
+
     ),
     )
     );
