@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:training_sheet_app/pages/FavTreinosPage.dart';
+import 'package:training_sheet_app/pages/FichaPage.dart';
+import 'package:training_sheet_app/pages/TempPage.dart';
 import 'package:training_sheet_app/pages/TreinosPage.dart';
 import 'package:training_sheet_app/pages/HomePage.dart';
 import 'package:training_sheet_app/repository/treino_repository.dart';
@@ -15,7 +16,6 @@ class ControllerPage extends StatefulWidget {
 
 class _ControllerPageState extends State<ControllerPage> {
   final user = FirebaseAuth.instance.currentUser;
-  PerfilRepository repository = PerfilRepository();
   AuthService _auth = AuthService();
 
   int pageAtual = 0;
@@ -39,34 +39,45 @@ class _ControllerPageState extends State<ControllerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.logout),
-              onPressed: () {
-                _auth.signOutUser(context);
-              },
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(70.0),
+          child: Container(
+            margin: EdgeInsets.only(top: 25.0),
+            child: AppBar(
+              backgroundColor: Colors.transparent,
+              leading: Icon(Icons.fitness_center, size: 30),
+              title: Text('Training Sheet',
+                style: TextStyle(fontSize: 17)),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.logout),
+                  onPressed: () {
+                    _auth.signOutUser(context);
+                  },
+                ),
+              ],
             ),
-          ],
+          ),
         ),
         body: _body(),
         bottomNavigationBar: Container(
-        color: Colors.blueGrey.shade900,
+        color: Colors.transparent,
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: GNav(
-          backgroundColor: Colors.blueGrey.shade900,
+          backgroundColor: Colors.transparent,
           activeColor: Colors.lightBlue,
-          tabBackgroundColor: Colors.blueGrey.shade800,
+          tabBackgroundColor: Colors.black26,
           tabBorderRadius: 50,
           gap: 8,
           tabs: const [
             GButton(icon: Icons.home, text: 'Home', padding: EdgeInsets.all(15)),
-            GButton(icon: Icons.accessibility_new, text: 'Treinos', padding: EdgeInsets.all(15)),
-            GButton(icon: Icons.star, text: 'Favoritos', padding: EdgeInsets.all(15))
+            GButton(icon: Icons.accessibility_new, text: 'Meus Treinos', padding: EdgeInsets.all(15)),
+            GButton(icon: Icons.receipt_long, text: 'Ficha', padding: EdgeInsets.all(15)),
+            GButton(icon: Icons.access_time, text: 'Temporizador', padding: EdgeInsets.all(15))
           ],
           onTabChange: (pagina){
-            _pageController.animateToPage(pagina, duration: Duration(milliseconds: 400), curve: Curves.decelerate);
+            _pageController.animateToPage(pagina, duration: Duration(milliseconds: 400), curve: Curves.easeOutExpo);
         },
           ),
         )
@@ -80,7 +91,8 @@ class _ControllerPageState extends State<ControllerPage> {
       children: [
         HomePage(),
         TreinosPage(),
-        FavTreinosPage()
+        FichaPage(),
+        TempPage()
       ],
       onPageChanged: setPaginaAtual,
     );

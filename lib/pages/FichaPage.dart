@@ -4,12 +4,12 @@ import 'package:training_sheet_app/repository/treino_repository.dart';
 
 import '../services/auth_service.dart';
 
-class FavTreinosPage extends StatefulWidget {
+class FichaPage extends StatefulWidget {
   @override
-  _FavTreinosPageState createState() => _FavTreinosPageState();
+  _FichaPageState createState() => _FichaPageState();
 }
 
-class _FavTreinosPageState extends State<FavTreinosPage> {
+class _FichaPageState extends State<FichaPage> {
   final user = FirebaseAuth.instance.currentUser;
   PerfilRepository repository = PerfilRepository();
   AuthService _auth = AuthService();
@@ -17,12 +17,8 @@ class _FavTreinosPageState extends State<FavTreinosPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _body(),
+      body: Text('ficha')
     );
-  }
-
-  _body(){
-
   }
 
 }

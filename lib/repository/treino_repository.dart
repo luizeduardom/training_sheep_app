@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:training_sheet_app/services/auth_service.dart';
 import 'package:training_sheet_app/services/db_firestore.dart';
-import '../model/treino.dart';
+import '../model/treinoUser.dart';
 
 
 class PerfilRepository {
-  Treino treino = Treino();
+  TreinoUser treino = TreinoUser();
   late FirebaseFirestore db;
   late AuthService auth;
 
@@ -28,7 +28,7 @@ class PerfilRepository {
 
   }
 
-  saveAll(Treino treino, String uid_usuario) async {
+  saveAll(TreinoUser treino, String uid_usuario) async {
 
   }
 

@@ -1,4 +1,4 @@
-class Treino {
+class TreinoUser {
   String? id;
   String? id_usuario;
   String? nome;
@@ -7,7 +7,7 @@ class Treino {
   int? repeticoes;
   String? status;
 
-  Treino({
+  TreinoUser({
     this.id = null,
     this.id_usuario,
     this.nome,
